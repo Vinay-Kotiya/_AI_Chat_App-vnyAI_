@@ -4,7 +4,13 @@ const mongoose = require("mongoose");
 const BodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://vnyai.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 app.use(BodyParser.json());
 const PORT = process.env.PORT || 5000;
 
