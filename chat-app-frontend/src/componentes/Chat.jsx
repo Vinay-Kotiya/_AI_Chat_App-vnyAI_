@@ -1,9 +1,13 @@
+// import React, { useState } from "react";
+// export default Chat;
 import React, { useState } from "react";
 import axios from "axios";
+import { motion } from "motion/react";
 // import ReactMarkdown from "react-markdown";
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
     if (!message.trim()) {
@@ -15,7 +19,7 @@ const Chat = () => {
     setChat(updatedChat);
     setMessage("");
     document.getElementById("headingLine").style.display = "none";
-    setChat([...updatedChat, { user: "AI", text: "Typing..." }]);
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -34,6 +38,8 @@ const Chat = () => {
         "Error sending message:",
         error.response?.data || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,17 +71,19 @@ const Chat = () => {
               }`}
               dangerouslySetInnerHTML={{ __html: msg.text }}
             />
-            {/* <ReactMarkdown
-              className={`p-4 rounded-4xl md:text-2xl text-xl   md:max-w-[75%] ${
-                msg.user === "You"
-                  ? "bg-[#10A37F] text-white"
-                  : "bg-[#333537] text-white"
-              }`}
-            >
-              {msg.text}
-            </ReactMarkdown> */}
           </div>
         ))}
+        {loading && (
+          <div className="flex justify-start my-2">
+            <div className="p-4 rounded-4xl md:text-2xl text-xl md:max-w-[75%] bg-[#333537] text-white">
+              <motion.div
+                className="w-6 h-6 border-4 border-t-white border-gray-400 rounded-full"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="relative w-full mt-4">
         <textarea
