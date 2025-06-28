@@ -26,8 +26,8 @@ const Chat = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/chat",
-        // "https://vnyai-api.vercel.app/api/chat",
+        // "http://localhost:5000/api/chat",
+        "https://vnyai-api.vercel.app/api/chat",
         { message },
         { headers: { "Content-Type": "application/json" } }
       );
