@@ -37,7 +37,15 @@ const Chat = () => {
         { user: "AI", text: formatResponse(response.data.response) },
       ]);
     } catch (error) {
-      setChat([...updatedChat, { user: "AI", text: error.message }]);
+      setChat([
+        ...updatedChat,
+        {
+          user: "AI",
+          text:
+            error.message +
+            "  Your question's answer is too long. Please ask short questions.",
+        },
+      ]);
       console.error(
         "Error sending message:",
         error.response?.data || error.message
